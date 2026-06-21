@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Built a Crypto Trading Bot to Get Rich. It Made R22. — Mark Miller</title>
+  <meta name="description" content="A brutally honest account of building an automated trading bot on VALR, South Africa's largest crypto exchange. The most expensive R200 investing book I never bought." />
+  <link rel="canonical" href="https://markmnyc.github.io/livecv/articles/crypto-bot.html" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    .article-page { max-width: 680px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+
+    .article-page__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      margin-bottom: 3rem;
+      transition: color var(--transition);
+    }
+    .article-page__back:hover { color: var(--color-primary); }
+
+    .article-page__tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .article-page__tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--color-accent);
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.25);
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+    }
+
+    .article-page__title {
+      font-size: clamp(1.9rem, 4vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .article-page__subtitle {
+      font-size: 1.2rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      line-height: 1.55;
+    }
+
+    .article-page__meta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 3rem;
+    }
+
+    .article-page__author { color: var(--color-primary); }
+
+    .article-body { line-height: 1.8; font-size: 1.05rem; }
+
+    .article-body p { margin-bottom: 1.5rem; color: var(--color-text-muted); }
+
+    .article-body h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem;
+      color: var(--color-text);
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .article-body h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.2em;
+      bottom: 0.2em;
+      width: 3px;
+      background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+      border-radius: 2px;
+    }
+
+    .article-body strong { color: var(--color-text); font-weight: 700; }
+
+    .article-body em { color: var(--color-text-muted); }
+
+    .article-body hr {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: 2.5rem 0;
+    }
+
+    .article-body ul {
+      list-style: none;
+      margin: 0 0 1.5rem 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .article-body ul li {
+      color: var(--color-text-muted);
+      padding-left: 1.25rem;
+      position: relative;
+    }
+
+    .article-body ul li::before {
+      content: "›";
+      position: absolute;
+      left: 0;
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    .article-body .pull-quote {
+      border-left: 3px solid var(--color-primary);
+      padding: 0.85rem 1.25rem;
+      margin: 2rem 0;
+      background: rgba(0,255,156,0.04);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--color-text);
+    }
+
+    .article-body .numbers-block {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .article-body .numbers-block ul {
+      margin: 0;
+    }
+
+    .article-footer {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .article-footer p {
+      font-style: italic;
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+    }
+
+    .article-cta {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .article-cta p {
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .article-cta .btn { display: inline-block; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="nav">
+      <a class="nav__logo" href="../">&lt;MarkMiller/&gt;</a>
+      <ul class="nav__links">
+        <li><a href="../#about">About</a></li>
+        <li><a href="../#resume">Resume</a></li>
+        <li><a href="../#projects">Projects</a></li>
+        <li><a href="../#articles">Articles</a></li>
+        <li><a href="../#contact">Contact</a></li>
+      </ul>
+      <button class="nav__toggle" aria-label="Toggle menu">&#9776;</button>
+    </nav>
+  </header>
+
+  <main>
+    <div class="article-page">
+
+      <a class="article-page__back" href="../#articles">← Back to articles</a>
+
+      <div class="article-page__tags">
+        <span class="article-page__tag">Crypto</span>
+        <span class="article-page__tag">AI</span>
+        <span class="article-page__tag">Python</span>
+        <span class="article-page__tag">Raspberry Pi</span>
+        <span class="article-page__tag">Personal Finance</span>
+      </div>
+
+      <h1 class="article-page__title">I Built a Crypto Trading Bot to Get Rich. It Made R22.</h1>
+      <p class="article-page__subtitle">The most expensive R200 investing book I never bought.</p>
+
+      <div class="article-page__meta">
+        <span class="article-page__author">Mark Miller</span>
+        <span>June 2026</span>
+        <span>8 min read</span>
+      </div>
+
+      <div class="article-body">
+
+        <p>At 2am I watched my money drain away. R395. Then R217. Then R119. Then R55 — gone in ten minutes, while my own code did it to me.</p>
+
+        <p>I'd built a machine to make money while I slept. Instead I was wide awake, watching it apparently set fire to everything I'd put in.</p>
+
+        <p>Here's the twist: I hadn't lost a cent. But I didn't know that yet, and the panic I felt in those ten minutes ended up teaching me more than the three months of code that led to it.</p>
+
+        <p>Let me back up.</p>
+
+        <h2>The dream</h2>
+
+        <p>The setup was almost adorably humble. A Raspberry Pi 3 — the little credit-card computer that runs on a few watts and has less memory than your phone. A South African crypto exchange. And a war chest of exactly <strong>R450</strong>. About $24.</p>
+
+        <p>That was the whole point. Make a tiny account grow, and you can make any account grow. Crack it small, scale it later, retire early. You can see where this is going. I couldn't, yet.</p>
+
+        <h2>Everything I tried that bled money</h2>
+
+        <p>I didn't build one strategy. I built five — because more strategies meant more money, obviously.</p>
+
+        <p><strong>Scalping</strong> went first. One win, nine losses. The fees swallowed every razor-thin margin before it could breathe.</p>
+
+        <p><strong>Mean reversion</strong> bought the dips. The dips kept dipping. In five days it walked my account from R469 down to R424 and I pulled the plug.</p>
+
+        <p><strong>Trend-following</strong> — the EMA, MACD, Bollinger setups every YouTube guru swears by — didn't crash so much as <em>bleed</em>. A few cents at a time. Every single trade paying a 0.20% fee that was bigger than the edge I was chasing.</p>
+
+        <div class="pull-quote">The pattern took me embarrassingly long to see: at small scale, your strategy barely matters. The fees do the killing.</div>
+
+        <h2>The one thing that worked refused to be clever</h2>
+
+        <p>Then there was the grid bot — and it broke the pattern by being almost stupid.</p>
+
+        <p>It predicts nothing. It just stacks buy orders below the price and sell orders above, then waits. Price dips, a buy fills. Price ticks back up, the sell fills, and you keep the sliver in between. Crypto never stops twitching, so the grid just sits there harvesting twitches. Up market, down market — doesn't care.</p>
+
+        <p>The secret sauce was a quirk called the <em>maker rebate</em>: place the right kind of order and the exchange <strong>pays you</strong> instead of charging you. The grid earned on the way in <em>and</em> the way out. Every cycle banked a tiny, boring, reliable profit. About 31 cents.</p>
+
+        <p>It was the only thing I built that didn't try to outsmart the market. And it was the only thing that made money. I should have written that on the wall.</p>
+
+        <h2>The disasters</h2>
+
+        <p>Running a live bot on a Raspberry Pi is a masterclass in creative failure.</p>
+
+        <p>One night a single bug convinced my bot it had completed <strong>861 trades in about four minutes</strong> — gleefully logging R273 of pure fantasy profit while machine-gunning the exchange until it locked me out for flooding it.</p>
+
+        <p>Another time, a clumsy restart left real Bitcoin marooned in my account — bought but never sold, capital silently handcuffed, invisible unless you knew the exact rock to look under.</p>
+
+        <p>And then that 2am money-melt I opened with. R395 to R55, real-time, watching it happen. Every rand was fine — temporarily turned into Bitcoin and parked in open orders. But for ten minutes it felt like a heart attack.</p>
+
+        <div class="pull-quote">Every panicked decision I made cost me money. The bot stayed calm. I didn't. Guess which of us was the weak link.</div>
+
+        <h2>A dozen dead authors slapped me awake</h2>
+
+        <p>Halfway through the bleeding, I went back to the classics — <em>The Intelligent Investor</em>, <em>The Psychology of Money</em>, <em>The Millionaire Next Door</em>, a whole stack of them.</p>
+
+        <p>Reading them while babysitting a losing bot was like getting gently slapped by a roomful of wise grandparents. Every one of them, in different words, was telling me the thing my own code was screaming:</p>
+
+        <p>Fees compound against you. Your behaviour matters more than your knowledge. Speculation is not investing. And the big one — <em>the vehicle matters far less than the fuel you put in it.</em></p>
+
+        <p>I had built an elaborate machine to learn, slowly and with real money, a lesson I could've bought for R200 in a bookshop.</p>
+
+        <h2>The honest result (brace yourself)</h2>
+
+        <p>So — final score?</p>
+
+        <p>Grid-only, running clean: 71 cycles, R22 in profit over about 18 days. Annualised, a glorious-looking 75%.</p>
+
+        <p>Now the part nobody else will tell you. That number is a flattering lie. The simulation filled every order instantly, never got rate-limited, never lost a cycle, and strolled untouched through a 20% Bitcoin crash that — with real money — would've stop-lossed me and left me clutching a bag of falling knives. Halve that R22. Maybe halve it again.</p>
+
+        <p>Call it R10 to R20 of <em>real</em> edge. Over three weeks. On R400.</p>
+
+        <p>So I took the actual money and dropped it in a savings account paying a guaranteed 8.5% — no risk, no code, no 2am cardiac events. It earned R2.51 in the same window while I slept like a baby.</p>
+
+        <p>My bot beat a savings account. By about ten rand. While occasionally pretending to lose half my net worth.</p>
+
+        <h2>The math that ended it</h2>
+
+        <p>Here's the punchline that closed the whole project. The grid's edge is a <em>percentage</em> — and a percentage doesn't care how rich you are. Same code, same Pi, different fuel:</p>
+
+        <div class="numbers-block">
+          <ul>
+            <li><strong>R400:</strong> a few rand a month over savings. A rounding error.</li>
+            <li><strong>R25,000:</strong> about R450 a month. Now I'm listening.</li>
+            <li><strong>R100,000:</strong> about R1,800 a month. Now it's an income.</li>
+          </ul>
+        </div>
+
+        <p>The bot was never the bottleneck. <strong>Capital was.</strong> I'd spent three months tuning the engine of a car that was already flat-out — and a faster engine, a smarter strategy, a shiny AI model would've changed <em>nothing</em>. Only a bigger tank would.</p>
+
+        <p>And the liberating gut-punch: getting from R400 to R25,000 has nothing to do with trading. It's a salary. A career. The deeply unsexy habit of auto-saving a slice of every paycheck. The bot is something you switch on <em>after</em> you've built the money elsewhere — never the thing that builds it.</p>
+
+        <h2>So, a waste of three months?</h2>
+
+        <p>Not a chance.</p>
+
+        <p>I didn't get rich. I made R22 of pretend money and maybe R10 of real edge. But I walked away knowing — in my bones, not just my head — that at small scale, capital and consistency beat cleverness every single time.</p>
+
+        <p>I also came out a sharper engineer, fluent in the kind of systems work that only sticks when your own money is on the line at 2am. That's worth more than the bot ever could've paid.</p>
+
+        <p>The Raspberry Pi is being reborn as a home ad-blocker — honestly a more dependable way to "save money automatically."</p>
+
+        <p>And the cash is sitting in a savings account, compounding quietly, doing exactly what a century of financial wisdom always said it would.</p>
+
+        <p>Turns out the smartest trade I made was finally quitting while I was behind.</p>
+
+        <hr />
+
+        <div class="article-footer">
+          <p>Building your own money machine? Do it — you'll learn a stupid amount. Just stay honest about what's actually making the money. Don't be shocked when the answer turns out to be your day job.</p>
+        </div>
+
+      </div>
+
+      <div class="article-cta">
+        <p>Want to talk engineering, trading bots, or anything in between?</p>
+        <a href="../#contact" class="btn btn--primary">Get in Touch</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> Mark Miller · Johannesburg, South Africa ·
+      <a href="https://www.linkedin.com/in/mark-miller-b9552580" target="_blank" rel="noopener" style="color:var(--color-primary);text-decoration:none;">LinkedIn</a>
+    </p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.querySelector('.nav__toggle').addEventListener('click', () => {
+      document.querySelector('.nav__links').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav__links a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector('.nav__links').classList.remove('open');
+      });
+    });
+  </script>
+
+</body>
+</html>
