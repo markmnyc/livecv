@@ -1,179 +1,146 @@
 /* ─────────────────────────────────────────────────────────────
-   Hero animation: a snippet of code drifts down the canvas
-   and as it falls each character "decays" into a 1 or 0,
-   producing a stream of binary that pools at the bottom.
+   Three.js neural-network particle hero
    ───────────────────────────────────────────────────────────── */
+function initHero() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas || typeof THREE === 'undefined') return;
 
-const SOURCE_LINES = [
-  'async function buildAgent(model, tools) {',
-  '  const ctx = await loadContext();',
-  '  const prompt = compose(SYSTEM, ctx);',
-  '  return new Agent({ model, tools, prompt });',
-  '}',
-  '',
-  'class Embedding {',
-  '  constructor(vec) { this.vec = vec; }',
-  '  similarity(other) {',
-  '    return dot(this.vec, other.vec);',
-  '  }',
-  '}',
-  '',
-  'for (const chunk of stream) {',
-  '  yield decode(chunk.tokens);',
-  '}',
-  '',
-  'const result = await llm.complete({',
-  '  messages, temperature: 0.7,',
-  '  max_tokens: 2048,',
-  '});',
-  '',
-  'if (loss < threshold) save(model);'
-];
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x0a0e1a, 1);
 
-const COLOR_CODE   = '#9ca3af';
-const COLOR_DECAY  = '#00d4ff';
-const COLOR_BINARY = '#00ff9c';
-const FONT_SIZE    = 14;
-const LINE_HEIGHT  = 18;
-const FALL_SPEED   = 0.55;
-const DECAY_DEPTH  = 0.45;
-const BINARY_DEPTH = 0.78;
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
+  camera.position.z = 42;
 
-const canvas = document.getElementById('matrixCanvas');
-const ctx    = canvas.getContext('2d');
+  /* ── glowing circular sprite ── */
+  const sc = document.createElement('canvas');
+  sc.width = sc.height = 64;
+  const sctx = sc.getContext('2d');
+  const sg = sctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  sg.addColorStop(0,    'rgba(0,255,156,1)');
+  sg.addColorStop(0.2,  'rgba(0,255,156,0.7)');
+  sg.addColorStop(0.55, 'rgba(0,212,255,0.2)');
+  sg.addColorStop(1,    'rgba(0,0,0,0)');
+  sctx.fillStyle = sg;
+  sctx.fillRect(0, 0, 64, 64);
+  const sprite = new THREE.CanvasTexture(sc);
 
-let width = 0;
-let height = 0;
-let columns = [];
+  /* ── particles ── */
+  const N = 130;
+  const SX = 38, SY = 26, SZ = 12;
 
-function resize() {
-  const dpr = window.devicePixelRatio || 1;
-  width  = canvas.clientWidth;
-  height = canvas.clientHeight;
-  canvas.width  = width  * dpr;
-  canvas.height = height * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  rebuildColumns();
-}
+  const particles = Array.from({ length: N }, () => ({
+    x:  (Math.random() - 0.5) * SX * 2,
+    y:  (Math.random() - 0.5) * SY * 2,
+    z:  (Math.random() - 0.5) * SZ * 2,
+    vx: (Math.random() - 0.5) * 0.016,
+    vy: (Math.random() - 0.5) * 0.012,
+    vz: (Math.random() - 0.5) * 0.005,
+  }));
 
-function rebuildColumns() {
-  ctx.font = `${FONT_SIZE}px ui-monospace, monospace`;
-  const colWidth = ctx.measureText('M').width * 22;
-  const count    = Math.max(3, Math.floor(width / colWidth));
-  columns = [];
-  for (let i = 0; i < count; i++) {
-    columns.push(makeColumn(i, count));
+  const pPos = new Float32Array(N * 3);
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  const pMat = new THREE.PointsMaterial({
+    size: 2.2,
+    map: sprite,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+  scene.add(new THREE.Points(pGeo, pMat));
+
+  /* ── connection lines ── */
+  const MAX_VERTS = N * 20;
+  const lPos = new Float32Array(MAX_VERTS * 3);
+  const lCol = new Float32Array(MAX_VERTS * 3);
+  const lGeo = new THREE.BufferGeometry();
+  lGeo.setAttribute('position', new THREE.BufferAttribute(lPos, 3));
+  lGeo.setAttribute('color',    new THREE.BufferAttribute(lCol, 3));
+  lGeo.setDrawRange(0, 0);
+  const lMat = new THREE.LineBasicMaterial({
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.85,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+  scene.add(new THREE.LineSegments(lGeo, lMat));
+
+  const DIST = 13, DIST_SQ = DIST * DIST;
+  let mx = 0, my = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX / window.innerWidth  - 0.5;
+    my = e.clientY / window.innerHeight - 0.5;
+  });
+
+  function resize() {
+    const W = canvas.clientWidth, H = canvas.clientHeight || window.innerHeight;
+    renderer.setSize(W, H, false);
+    camera.aspect = W / H;
+    camera.updateProjectionMatrix();
   }
-}
+  resize();
+  window.addEventListener('resize', resize);
 
-function makeColumn(i, total) {
-  const x = (i + 0.5) * (width / total);
-  const lineIdx = Math.floor(Math.random() * SOURCE_LINES.length);
-  const text = SOURCE_LINES[lineIdx] || '0';
-  return {
-    x,
-    text,
-    y: -Math.random() * height,
-    speed: FALL_SPEED + Math.random() * 0.6,
-    seed: Math.random() * 1000,
-  };
-}
+  function loop(t) {
+    requestAnimationFrame(loop);
+    const tick = t * 0.0004;
 
-/* deterministic-ish hash for stable per-cell binary picks */
-function hash(a, b, c) {
-  let h = (a * 73856093) ^ (b * 19349663) ^ (c * 83492791);
-  h = (h ^ (h >>> 13)) * 1274126177;
-  return ((h ^ (h >>> 16)) >>> 0) / 4294967295;
-}
+    for (let i = 0; i < N; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.z += p.vz;
+      if (Math.abs(p.x) > SX) p.vx *= -1;
+      if (Math.abs(p.y) > SY) p.vy *= -1;
+      if (Math.abs(p.z) > SZ) p.vz *= -1;
+      pPos[i * 3]     = p.x;
+      pPos[i * 3 + 1] = p.y;
+      pPos[i * 3 + 2] = p.z;
+    }
+    pGeo.attributes.position.needsUpdate = true;
 
-function drawColumn(col, t) {
-  const lines = col.text.split('');
-  const headY = col.y;
-
-  /* tail of trailing characters above the head, fading out */
-  const TRAIL = 18;
-  for (let k = -2; k < TRAIL; k++) {
-    const y = headY - k * LINE_HEIGHT;
-    if (y < -LINE_HEIGHT || y > height + LINE_HEIGHT) continue;
-
-    const ch = lines[((k % lines.length) + lines.length) % lines.length] || ' ';
-    if (ch === ' ') continue;
-
-    /* fall progress 0 (top) → 1 (bottom) */
-    const p = Math.max(0, Math.min(1, y / height));
-
-    let glyph = ch;
-    let color = COLOR_CODE;
-    let alpha = 1;
-
-    if (p > BINARY_DEPTH) {
-      /* fully decayed: stable 0/1 per (column,row) */
-      const r = hash(Math.floor(col.x), Math.floor(y / LINE_HEIGHT), Math.floor(col.seed));
-      glyph = r > 0.5 ? '1' : '0';
-      color = COLOR_BINARY;
-      alpha = 0.95;
-    } else if (p > DECAY_DEPTH) {
-      /* mid-decay: flicker between original char and 0/1 */
-      const localT  = (p - DECAY_DEPTH) / (BINARY_DEPTH - DECAY_DEPTH);
-      const flicker = hash(Math.floor(col.x), Math.floor(y / LINE_HEIGHT), Math.floor(t / 90));
-      if (flicker < localT) {
-        glyph = flicker > 0.5 - localT * 0.5 ? '1' : '0';
-        color = COLOR_DECAY;
+    let vi = 0;
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
+        if (vi + 2 > MAX_VERTS) break;
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dz = particles[i].z - particles[j].z;
+        const dSq = dx * dx + dy * dy + dz * dz;
+        if (dSq < DIST_SQ) {
+          const str = (1 - Math.sqrt(dSq) / DIST) * 0.55;
+          const tz = (particles[i].z + SZ) / (SZ * 2);
+          const gv = (0.85 + 0.15 * (1 - tz)) * str;
+          const bv = (0.45 + 0.55 * tz) * str;
+          const b  = vi * 3;
+          lPos[b]     = particles[i].x; lPos[b + 1] = particles[i].y; lPos[b + 2] = particles[i].z;
+          lPos[b + 3] = particles[j].x; lPos[b + 4] = particles[j].y; lPos[b + 5] = particles[j].z;
+          lCol[b]     = 0; lCol[b + 1] = gv; lCol[b + 2] = bv;
+          lCol[b + 3] = 0; lCol[b + 4] = gv; lCol[b + 5] = bv;
+          vi += 2;
+        }
       }
-      alpha = 0.85 + 0.15 * (1 - localT);
     }
+    lGeo.attributes.position.needsUpdate = true;
+    lGeo.attributes.color.needsUpdate    = true;
+    lGeo.setDrawRange(0, vi);
 
-    /* fade trailing characters and the very-top edge */
-    if (k > 6) alpha *= Math.max(0, 1 - (k - 6) / (TRAIL - 6));
-    if (y < 30) alpha *= y / 30;
+    camera.position.x += (mx * 8 + Math.sin(tick) * 2 - camera.position.x) * 0.025;
+    camera.position.y += (-my * 5 + Math.cos(tick * 0.7) * 1.5 - camera.position.y) * 0.025;
+    camera.lookAt(0, 0, 0);
 
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle   = color;
-    /* head glyph gets a glow */
-    if (k === 0) {
-      ctx.shadowColor = color;
-      ctx.shadowBlur  = 8;
-    } else {
-      ctx.shadowBlur  = 0;
-    }
-    ctx.fillText(glyph, col.x, y);
+    renderer.render(scene, camera);
   }
-  ctx.globalAlpha = 1;
-  ctx.shadowBlur  = 0;
+  requestAnimationFrame(loop);
 }
 
-function frame(t) {
-  /* slight trail by overlaying a translucent dark rectangle */
-  ctx.fillStyle = 'rgba(10, 14, 26, 0.18)';
-  ctx.fillRect(0, 0, width, height);
-
-  ctx.font = `${FONT_SIZE}px ui-monospace, monospace`;
-  ctx.textBaseline = 'middle';
-
-  for (const col of columns) {
-    col.y += col.speed * (LINE_HEIGHT / 14);
-    if (col.y - LINE_HEIGHT * 30 > height) {
-      /* recycle the column with a fresh code line */
-      col.text = SOURCE_LINES[Math.floor(Math.random() * SOURCE_LINES.length)];
-      col.y = -Math.random() * height * 0.3;
-      col.speed = FALL_SPEED + Math.random() * 0.6;
-      col.seed = Math.random() * 1000;
-    }
-    drawColumn(col, t);
-  }
-
-  requestAnimationFrame(frame);
-}
-
-resize();
-window.addEventListener('resize', resize);
-requestAnimationFrame(frame);
+initHero();
 
 /* ─────────────────────────────────────────────────────────────
-   Page UX: nav toggle, smooth nav close, year, contact form,
-   skill bar reveal on scroll.
+   Page UX
    ───────────────────────────────────────────────────────────── */
-
 document.getElementById('year').textContent = new Date().getFullYear();
 
 document.querySelector('.nav__toggle').addEventListener('click', () => {
@@ -188,11 +155,11 @@ document.querySelectorAll('.nav__links a').forEach(link => {
 
 document.getElementById('contactForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const form = e.target;
+  const form     = e.target;
   const feedback = document.getElementById('formFeedback');
-  const btn = form.querySelector('button[type="submit"]');
+  const btn      = form.querySelector('button[type="submit"]');
 
-  btn.disabled = true;
+  btn.disabled    = true;
   btn.textContent = 'Sending...';
 
   try {
@@ -201,13 +168,12 @@ document.getElementById('contactForm').addEventListener('submit', async e => {
       body: new FormData(form),
       headers: { Accept: 'application/json' },
     });
-
     if (res.ok) {
-      feedback.textContent = '> message_received. I\'ll be in touch soon.';
-      feedback.style.color = 'var(--color-primary)';
+      feedback.textContent  = "> message_received. I'll be in touch soon.";
+      feedback.style.color  = 'var(--color-primary)';
       form.reset();
     } else {
-      feedback.textContent = '> send failed. Email me directly at your-email@example.com';
+      feedback.textContent = '> send failed. Please try again or reach out on LinkedIn.';
       feedback.style.color = '#f87171';
     }
   } catch {
@@ -215,25 +181,8 @@ document.getElementById('contactForm').addEventListener('submit', async e => {
     feedback.style.color = '#f87171';
   }
 
-  feedback.hidden = false;
-  btn.disabled = false;
-  btn.textContent = 'Send Message';
+  feedback.hidden     = false;
+  btn.disabled        = false;
+  btn.textContent     = 'Send Message';
   setTimeout(() => { feedback.hidden = true; }, 6000);
 });
-
-/* trigger skill bars when the resume scrolls into view */
-const skillBars = document.querySelectorAll('.skill__bar span');
-const initialWidths = Array.from(skillBars).map(el => el.style.width);
-skillBars.forEach(el => { el.style.width = '0%'; });
-
-const skillObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      skillBars.forEach((el, i) => { el.style.width = initialWidths[i]; });
-      skillObserver.disconnect();
-    }
-  });
-}, { threshold: 0.3 });
-
-const resumeSection = document.getElementById('resume');
-if (resumeSection) skillObserver.observe(resumeSection);

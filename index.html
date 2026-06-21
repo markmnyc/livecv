@@ -15,7 +15,8 @@
       <ul class="nav__links">
         <li><a href="#about">About</a></li>
         <li><a href="#resume">Resume</a></li>
-        <li><a href="#projects">AI Projects</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#articles">Articles</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <button class="nav__toggle" aria-label="Toggle menu">&#9776;</button>
@@ -23,16 +24,15 @@
   </header>
 
   <main>
-    <!-- ── Hero ─────────────────────────────────────────────────── -->
     <section class="hero">
-      <canvas id="matrixCanvas" class="hero__canvas" aria-hidden="true"></canvas>
+      <canvas id="heroCanvas" class="hero__canvas" aria-hidden="true"></canvas>
       <div class="hero__content">
         <div class="open-badge">
           <span class="open-badge__dot"></span>
           Open to new roles — Head of Engineering &amp; Engineering Manager
         </div>
         <h1 class="hero__title">Mark Miller.<br/><span class="hero__title-accent">Engineering leader.<br/>Platform builder.</span></h1>
-        <p class="hero__subtitle">Technical Team Lead at FNB South Africa · 10+ years building and maturing enterprise banking systems · leading a team of 16.</p>
+        <p class="hero__subtitle">Technical Team Lead at FNB South Africa · 10+ years building enterprise banking systems · leading a team of 16.</p>
         <div class="hero__cta">
           <a href="#contact" class="btn btn--primary">Get in Touch</a>
           <a href="#resume" class="btn btn--ghost">View Resume</a>
@@ -40,48 +40,19 @@
       </div>
     </section>
 
-    <!-- ── Stats bar ──────────────────────────────────────────────  -->
     <div class="stats-bar">
-      <div class="stat">
-        <span class="stat__num">16</span>
-        <span class="stat__label">Engineers led</span>
-      </div>
-      <div class="stat">
-        <span class="stat__num">10+</span>
-        <span class="stat__label">Years at FNB</span>
-      </div>
-      <div class="stat">
-        <span class="stat__num">1</span>
-        <span class="stat__label">Fleet mgmt platform delivered</span>
-      </div>
-      <div class="stat">
-        <span class="stat__num">∞</span>
-        <span class="stat__label">Systems migrated &amp; matured</span>
-      </div>
+      <div class="stat"><span class="stat__num">16</span><span class="stat__label">Engineers led</span></div>
+      <div class="stat"><span class="stat__num">10+</span><span class="stat__label">Years at FNB</span></div>
+      <div class="stat"><span class="stat__num">1</span><span class="stat__label">Fleet mgmt platform delivered</span></div>
+      <div class="stat"><span class="stat__num">R22</span><span class="stat__label">Crypto bot profits</span></div>
     </div>
 
-    <!-- ── About ─────────────────────────────────────────────────── -->
     <section id="about" class="section">
       <div class="container container--narrow">
         <h2 class="section__title">About</h2>
-        <p class="section__text">
-          I'm a Technical Team Lead at FNB South Africa with over a decade of experience
-          building, migrating, and maturing enterprise banking systems. I currently lead
-          a team of 16 engineers — my focus is on clear direction, growing the people
-          around me, and shipping software that actually moves the business forward.
-        </p>
-        <p class="section__text" style="margin-top:1rem;">
-          My biggest delivery as lead has been a fleet management platform that
-          consolidated business capabilities across divisions, giving fleet companies
-          a single place to manage their operations. Before moving into leadership, I
-          spent years in the engine room — building and migrating core FNB systems that
-          are now some of the bank's most relied-upon platforms.
-        </p>
-        <p class="section__text" style="margin-top:1rem;">
-          Outside of FNB I'm exploring AI — particularly what LLMs and agents
-          can do for enterprise software teams. This site doubles as my lab notebook
-          for those experiments.
-        </p>
+        <p class="section__text">I'm a Technical Team Lead at FNB South Africa with over a decade of experience building, migrating, and maturing enterprise banking systems. I currently lead a team of 16 engineers — my focus is on clear direction, growing the people around me, and shipping software that actually moves the business forward.</p>
+        <p class="section__text" style="margin-top:1rem;">My biggest delivery as lead has been a fleet management platform that consolidated business capabilities across divisions, giving fleet companies a single place to manage their operations. Before moving into leadership, I spent years in the engine room — building and migrating core FNB systems that are now some of the bank's most relied-upon platforms.</p>
+        <p class="section__text" style="margin-top:1rem;">Outside of FNB I'm deep in the AI rabbit hole — building trading bots, writing about what I learn, and exploring what LLMs can do for engineering teams. This site is part résumé, part lab notebook.</p>
         <ul class="badges">
           <li class="badge">Team Leadership</li>
           <li class="badge">Platform Engineering</li>
@@ -95,45 +66,25 @@
       </div>
     </section>
 
-    <!-- ── What I bring ───────────────────────────────────────────── -->
     <section class="section section--alt">
       <div class="container">
         <h2 class="section__title">What I Bring</h2>
         <div class="pillars">
-          <div class="pillar">
-            <div class="pillar__icon">&#128101;</div>
-            <h3 class="pillar__title">People-first leadership</h3>
-            <p class="pillar__text">I grow engineers, not just ship features. Mentoring, career development, and building a culture where people do their best work.</p>
-          </div>
-          <div class="pillar">
-            <div class="pillar__icon">&#127959;</div>
-            <h3 class="pillar__title">Platform thinking</h3>
-            <p class="pillar__text">I've built systems from the ground up and migrated legacy ones at scale. I know how to consolidate complexity into something teams can actually build on.</p>
-          </div>
-          <div class="pillar">
-            <div class="pillar__icon">&#128200;</div>
-            <h3 class="pillar__title">Business alignment</h3>
-            <p class="pillar__text">Spent 10+ years at a major bank — I understand how to connect engineering effort to business outcomes and communicate both ways across the org.</p>
-          </div>
-          <div class="pillar">
-            <div class="pillar__icon">&#129302;</div>
-            <h3 class="pillar__title">AI curiosity</h3>
-            <p class="pillar__text">Actively exploring LLMs and agents. I want to bring that into the teams I lead — not as a trend, but as a genuine force multiplier.</p>
-          </div>
+          <div class="pillar"><div class="pillar__icon">&#128101;</div><h3 class="pillar__title">People-first leadership</h3><p class="pillar__text">I grow engineers, not just ship features. Mentoring, career development, and building a culture where people do their best work.</p></div>
+          <div class="pillar"><div class="pillar__icon">&#127959;</div><h3 class="pillar__title">Platform thinking</h3><p class="pillar__text">I've built systems from the ground up and migrated legacy ones at scale. I know how to consolidate complexity into something teams can build on.</p></div>
+          <div class="pillar"><div class="pillar__icon">&#128200;</div><h3 class="pillar__title">Business alignment</h3><p class="pillar__text">Spent 10+ years at a major bank — I understand how to connect engineering effort to business outcomes and communicate across the org.</p></div>
+          <div class="pillar"><div class="pillar__icon">&#129302;</div><h3 class="pillar__title">AI curiosity</h3><p class="pillar__text">Actively exploring LLMs and agents. I want to bring that into the teams I lead — not as a trend, but as a genuine force multiplier.</p></div>
         </div>
       </div>
     </section>
 
-    <!-- ── Resume ────────────────────────────────────────────────── -->
     <section id="resume" class="section">
       <div class="container">
         <h2 class="section__title">Resume</h2>
-
         <div class="resume">
           <div class="resume__col">
             <h3 class="resume__heading">Experience</h3>
             <div class="timeline">
-
               <div class="timeline__item">
                 <div class="timeline__dot"></div>
                 <h4 class="timeline__title">Technical Team Lead</h4>
@@ -145,7 +96,6 @@
                   <li>Bridge between business stakeholders and the engineering team</li>
                 </ul>
               </div>
-
               <div class="timeline__item">
                 <div class="timeline__dot"></div>
                 <h4 class="timeline__title">Software Engineer</h4>
@@ -153,10 +103,9 @@
                 <ul class="timeline__bullets">
                   <li>Built and migrated multiple core FNB commercial systems — maturing legacy platforms into reliable, scalable services</li>
                   <li>Worked across systems that became foundational banking infrastructure at one of Africa's largest financial institutions</li>
-                  <li>Skills: Systems Analysis, .NET / C#, containerisation, software delivery</li>
+                  <li>Systems Analysis, .NET / C#, containerisation, software delivery</li>
                 </ul>
               </div>
-
               <div class="timeline__item">
                 <div class="timeline__dot"></div>
                 <h4 class="timeline__title">Salesman</h4>
@@ -165,10 +114,8 @@
                   <li>Customer-facing sales — built the communication and relationship skills that still shape how I lead teams and work with stakeholders today</li>
                 </ul>
               </div>
-
             </div>
           </div>
-
           <div class="resume__col">
             <h3 class="resume__heading">Education</h3>
             <div class="edu-card">
@@ -176,115 +123,104 @@
               <p class="edu-card__field">Software Engineering</p>
               <p class="edu-card__school">Damelin</p>
             </div>
-
             <h3 class="resume__heading resume__heading--gap">Core Strengths</h3>
             <ul class="strengths">
-              <li class="strength">
-                <span class="strength__label">Engineering leadership &amp; team building</span>
-              </li>
-              <li class="strength">
-                <span class="strength__label">Platform &amp; system architecture</span>
-              </li>
-              <li class="strength">
-                <span class="strength__label">Legacy modernisation &amp; migration</span>
-              </li>
-              <li class="strength">
-                <span class="strength__label">Stakeholder &amp; executive communication</span>
-              </li>
-              <li class="strength">
-                <span class="strength__label">Agile delivery &amp; engineering process</span>
-              </li>
-              <li class="strength">
-                <span class="strength__label">AI tooling &amp; LLM integration</span>
-              </li>
+              <li class="strength"><span class="strength__label">Engineering leadership &amp; team building</span></li>
+              <li class="strength"><span class="strength__label">Platform &amp; system architecture</span></li>
+              <li class="strength"><span class="strength__label">Legacy modernisation &amp; migration</span></li>
+              <li class="strength"><span class="strength__label">Stakeholder &amp; executive communication</span></li>
+              <li class="strength"><span class="strength__label">Agile delivery &amp; engineering process</span></li>
+              <li class="strength"><span class="strength__label">AI tooling &amp; LLM integration</span></li>
             </ul>
-
             <h3 class="resume__heading resume__heading--gap">Currently Seeking</h3>
             <p class="seeking">Head of Engineering, VP Engineering, or Engineering Manager roles where I can lead high-performing teams and drive meaningful technical direction.</p>
-
             <a href="https://www.linkedin.com/in/mark-miller-b9552580" target="_blank" rel="noopener" class="btn btn--primary btn--small" style="margin-top:1.5rem;display:inline-block;">View on LinkedIn</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── AI Projects ───────────────────────────────────────────── -->
     <section id="projects" class="section section--alt">
       <div class="container">
-        <h2 class="section__title">AI Projects</h2>
-        <p class="section__text">Side projects where I explore what's possible with modern AI. Updated as I build.</p>
-
+        <h2 class="section__title">Projects</h2>
+        <p class="section__text">Side projects where I explore what's possible. Updated as I build.</p>
         <div class="projects">
-
+          <article class="project">
+            <div class="project__status project__status--live">Live</div>
+            <h3 class="project__title">VALR Trading Bot</h3>
+            <p class="project__desc">Automated crypto trading bot built for VALR, South Africa's largest exchange. Executes strategies, manages positions, and monitors market data in real-time. Net P&amp;L: R22.</p>
+            <ul class="project__tags"><li>Python</li><li>VALR API</li><li>Algorithmic Trading</li></ul>
+            <a href="#" class="project__link">View Source →</a>
+          </article>
           <article class="project">
             <div class="project__status project__status--live">Live</div>
             <h3 class="project__title">This Site</h3>
-            <p class="project__desc">Built end-to-end using Claude Code — no manual HTML written. An experiment in AI-assisted development from scratch.</p>
-            <ul class="project__tags">
-              <li>Claude Code</li><li>HTML/CSS/JS</li><li>GitHub Pages</li>
-            </ul>
+            <p class="project__desc">Built end-to-end using Claude Code — no manual HTML written. An experiment in AI-assisted development from scratch, deployed via GitHub Pages.</p>
+            <ul class="project__tags"><li>Claude Code</li><li>Three.js</li><li>GitHub Pages</li></ul>
             <a href="https://github.com/markmnyc/containerHealthChecks" target="_blank" rel="noopener" class="project__link">View Source →</a>
           </article>
-
           <article class="project">
             <div class="project__status project__status--live">Live</div>
             <h3 class="project__title">Container Health Checks</h3>
-            <p class="project__desc">Explored Docker container health monitoring patterns with .NET — building observable, production-ready containerised services.</p>
-            <ul class="project__tags">
-              <li>.NET</li><li>Docker</li><li>C#</li>
-            </ul>
+            <p class="project__desc">Explored Docker container health monitoring patterns with .NET — building observable, production-ready containerised services at FNB scale.</p>
+            <ul class="project__tags"><li>.NET</li><li>Docker</li><li>C#</li></ul>
             <a href="https://github.com/markmnyc/containerHealthChecks" target="_blank" rel="noopener" class="project__link">View Source →</a>
           </article>
-
           <article class="project">
             <div class="project__status project__status--building">Building</div>
             <h3 class="project__title">AI Banking Assistant</h3>
             <p class="project__desc">Exploring how LLM agents could handle common commercial banking workflows — smart triage, summarisation, and guided resolution.</p>
-            <ul class="project__tags">
-              <li>Claude API</li><li>Python</li><li>RAG</li>
-            </ul>
+            <ul class="project__tags"><li>Claude API</li><li>Python</li><li>RAG</li></ul>
             <a href="#" class="project__link">Coming soon →</a>
           </article>
-
           <article class="project">
             <div class="project__status project__status--building">Building</div>
             <h3 class="project__title">Team Velocity Dashboard</h3>
             <p class="project__desc">AI-assisted dashboard that analyses sprint and delivery data to surface insights for engineering leads — less reporting, more leading.</p>
-            <ul class="project__tags">
-              <li>Python</li><li>LLMs</li><li>Data viz</li>
-            </ul>
+            <ul class="project__tags"><li>Python</li><li>LLMs</li><li>Data viz</li></ul>
             <a href="#" class="project__link">Coming soon →</a>
           </article>
-
           <article class="project">
             <div class="project__status project__status--research">Research</div>
             <h3 class="project__title">Code Review Agent</h3>
-            <p class="project__desc">Can LLMs meaningfully assist in enterprise .NET code reviews? Investigating patterns, quality signals, and where AI adds real value.</p>
-            <ul class="project__tags">
-              <li>Claude</li><li>.NET</li><li>GitHub API</li>
-            </ul>
+            <p class="project__desc">Can LLMs meaningfully assist in enterprise .NET code reviews? Investigating where AI adds real value vs noise in a large banking codebase.</p>
+            <ul class="project__tags"><li>Claude</li><li>.NET</li><li>GitHub API</li></ul>
             <a href="#" class="project__link">Coming soon →</a>
           </article>
-
-          <article class="project">
-            <div class="project__status project__status--research">Research</div>
-            <h3 class="project__title">Onboarding AI Mentor</h3>
-            <p class="project__desc">An AI assistant that helps new engineers ramp up on large codebases — guided context, searchable Q&amp;A, codebase-aware answers.</p>
-            <ul class="project__tags">
-              <li>RAG</li><li>Claude</li><li>Embeddings</li>
-            </ul>
-            <a href="#" class="project__link">Coming soon →</a>
-          </article>
-
         </div>
       </div>
     </section>
 
-    <!-- ── Contact ───────────────────────────────────────────────── -->
-    <section id="contact" class="section">
+    <section id="articles" class="section">
+      <div class="container">
+        <h2 class="section__title">Published Articles</h2>
+        <p class="section__text">Writing about what I build, what breaks, and what I learn along the way.</p>
+        <div class="articles">
+          <article class="article-card article-card--featured">
+            <div class="article-card__top">
+              <div class="article-card__tags">
+                <span class="article-card__tag">Crypto</span>
+                <span class="article-card__tag">AI</span>
+                <span class="article-card__tag">Python</span>
+              </div>
+              <span class="article-card__badge">New</span>
+            </div>
+            <h3 class="article-card__title">I Built a Crypto Trading Bot to Get Rich. It Made R22.</h3>
+            <p class="article-card__excerpt">A brutally honest account of building an automated trading bot on VALR, South Africa's largest crypto exchange. Complete with strategy, code, backtesting, and live deployment — and a net profit that won't be covering anyone's retirement.</p>
+            <div class="article-card__footer">
+              <span class="article-card__date">June 2026</span>
+              <span class="article-card__read-time">8 min read</span>
+              <a href="#" class="article-card__link">Read article →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section--alt">
       <div class="container container--narrow">
         <h2 class="section__title">Get in Touch</h2>
-        <p class="section__text">Considering me for a role, want to collaborate on an AI project, or just talk engineering? I'd love to hear from you.</p>
+        <p class="section__text">Considering me for a role, want to collaborate, or just talk engineering? I'd love to hear from you.</p>
         <form class="form" id="contactForm" action="https://formspree.io/f/mkoynjpr" method="POST">
           <div class="form__group">
             <label class="form__label" for="name">Name</label>
@@ -311,6 +247,7 @@
     </p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
