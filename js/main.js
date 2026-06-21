@@ -89,6 +89,7 @@ function initHero() {
     requestAnimationFrame(loop);
     const tick = t * 0.0004;
 
+    /* move particles */
     for (let i = 0; i < N; i++) {
       const p = particles[i];
       p.x += p.vx; p.y += p.vy; p.z += p.vz;
@@ -101,6 +102,7 @@ function initHero() {
     }
     pGeo.attributes.position.needsUpdate = true;
 
+    /* update lines */
     let vi = 0;
     for (let i = 0; i < N; i++) {
       for (let j = i + 1; j < N; j++) {
@@ -111,6 +113,7 @@ function initHero() {
         const dSq = dx * dx + dy * dy + dz * dz;
         if (dSq < DIST_SQ) {
           const str = (1 - Math.sqrt(dSq) / DIST) * 0.55;
+          /* blend green → cyan by z depth */
           const tz = (particles[i].z + SZ) / (SZ * 2);
           const gv = (0.85 + 0.15 * (1 - tz)) * str;
           const bv = (0.45 + 0.55 * tz) * str;
@@ -127,6 +130,7 @@ function initHero() {
     lGeo.attributes.color.needsUpdate    = true;
     lGeo.setDrawRange(0, vi);
 
+    /* camera follows mouse + slow drift */
     camera.position.x += (mx * 8 + Math.sin(tick) * 2 - camera.position.x) * 0.025;
     camera.position.y += (-my * 5 + Math.cos(tick * 0.7) * 1.5 - camera.position.y) * 0.025;
     camera.lookAt(0, 0, 0);
