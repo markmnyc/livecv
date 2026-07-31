@@ -305,7 +305,92 @@
             <span class="fit-prompt__label">Recruiter fit-check prompt</span>
             <button class="fit-prompt__copy" id="copyPromptBtn" type="button">Copy prompt</button>
           </div>
-          <pre class="fit-prompt__body" id="fitPromptText">[Placeholder — Mark to supply the exact prompt text. This block will hold a copyable prompt that recruiters paste into an AI assistant alongside their job spec, so it can assess fit against Mark's real background — including gaps.]</pre>
+          <pre class="fit-prompt__body" id="fitPromptText">You are helping a recruiter assess whether a candidate fits a role.
+
+CANDIDATE: Mark Miller — engineering leader, Johannesburg, South Africa.
+Open to relocation (UK, UAE, Cape Town).
+
+BACKGROUND
+- 10 years at FNB (FirstRand), one of Africa's largest financial services
+  groups. Software Engineer (2015–2024), then Technical Team Lead /
+  Development Manager (2024–present).
+- Currently leads a 16-person engineering function — software engineers,
+  SQL/data developers, business analysts and testers — across integration,
+  data and platform delivery for a commercial fleet management and leasing
+  platform.
+
+WHAT HE HAS BUILT
+- A governed AI platform in production inside a regulated bank: a single
+  governed gateway, dual-mode authentication (team API keys migrating to
+  short-lived signed tokens carrying per-agent identity claims), full audit
+  logging, per-team and per-agent usage telemetry, container-deployed to
+  enterprise standards with an automated test suite.
+- MCP (Model Context Protocol) knowledge servers exposing legacy and vendor
+  system context as queryable services for engineering teams.
+- A federated AI governance framework: hub-and-spoke steering distribution on
+  an "extend-never-weaken" contract, semantic version pinning, and a
+  purpose-built linter running six validation passes in CI. Business units can
+  extend the compliance baseline but cannot weaken it. Built for a
+  multi-regulator environment (POPIA, SARB, FSCA, FICA).
+- An architecture evolution lifecycle — continuous scanning, sandbox soak
+  period, guild review, controlled promotion — so the platform stays current
+  under governance rather than through ad-hoc change.
+
+COMMERCIAL OUTCOMES
+- Eliminated an escalating multi-million-rand annual vendor contract by
+  designing and building the replacement in-house, using existing team
+  capacity with no additional headcount. Avoided further per-API vendor
+  charges on all future integrations.
+- Led a strangler-fig migration off a legacy vendor core platform, moving
+  capability stage by stage into owned, API-first services.
+- Codified the vendor-exit approach as a reusable method for other vendor
+  relationships.
+
+ADOPTION AND ORGANISATIONAL IMPACT
+- Ran an AI enablement programme reaching 150+ engineers across the
+  organisation, converted into standing guilds, shared tooling and adopted
+  engineering standards (spec-driven development, context engineering, pull
+  request discipline).
+- Established a technology value capability sponsored at Segment CIO level,
+  reporting into EXCO and CEO forums, with a Measured / Attested / Estimated
+  grading discipline applied to every reported figure.
+- Ran structured discovery across four CIO portfolios, evidencing
+  organisation-wide capability duplication and contributing to the segment's
+  target operating model using Team Topologies.
+
+TECHNICAL
+AI platform architecture, LLM gateways, MCP servers, agent identity and
+authorisation, RAG. .NET/C#, Python, PostgreSQL, Docker, Kubernetes, CI/CD,
+API-first and microservice architecture. AI governance frameworks (ISO 42001,
+NIST AI RMF). Legacy modernisation and vendor migration.
+
+CONTEXT WORTH KNOWING
+- Current title (Technical Team Lead) understates the scope — the role spans
+  stream delivery, platform product ownership and organisation-wide
+  enablement. A structural review of this is underway.
+- Team size led: 16. He has not yet run a department of 100+.
+- Qualification: Diploma in Information Technology (Software Engineering),
+  Damelin. No formal degree.
+- All AI platform work is internal to a bank, so it is not publicly viewable.
+  Personal projects and technical writing are on his site.
+
+YOUR TASK
+I will paste a job specification below. Assess the fit honestly and
+specifically:
+
+1. Where he is a strong match — cite the concrete evidence, not adjectives.
+2. Where he is a partial match — what is adjacent but not identical.
+3. Where he does NOT match — be direct. If the role needs something he
+   clearly lacks (scale of team, a specific stack, a degree requirement,
+   a domain he hasn't worked in), say so plainly.
+4. A one-line verdict: strong fit / worth a conversation / not a fit.
+5. Two or three questions worth asking him in a first screen.
+
+Be genuinely balanced. An assessment that only praises him is useless to me
+and I will discount it entirely.
+
+JOB SPECIFICATION:
+[paste the role here]</pre>
         </div>
       </div>
     </section>
