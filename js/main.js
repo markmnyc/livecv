@@ -157,6 +157,34 @@ document.querySelectorAll('.nav__links a').forEach(link => {
   });
 });
 
+const copyPromptBtn = document.getElementById('copyPromptBtn');
+if (copyPromptBtn) {
+  copyPromptBtn.addEventListener('click', async () => {
+    const promptEl = document.getElementById('fitPromptText');
+    const text = promptEl.textContent;
+
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const range = document.createRange();
+      range.selectNode(promptEl);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand('copy');
+      sel.removeAllRanges();
+    }
+
+    const original = copyPromptBtn.textContent;
+    copyPromptBtn.textContent = 'Copied ✓';
+    copyPromptBtn.classList.add('is-copied');
+    setTimeout(() => {
+      copyPromptBtn.textContent = original;
+      copyPromptBtn.classList.remove('is-copied');
+    }, 2000);
+  });
+}
+
 document.getElementById('contactForm').addEventListener('submit', async e => {
   e.preventDefault();
   const form     = e.target;

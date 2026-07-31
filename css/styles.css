@@ -591,6 +591,75 @@ header {
 
 .project__link:hover { text-decoration: underline; }
 
+.project__link--internal {
+  color: var(--color-text-muted);
+  cursor: default;
+}
+
+.project__link--internal:hover { text-decoration: none; }
+
+/* ── Fit-check prompt block ─────────────────────────────────── */
+.fit-prompt {
+  margin-top: 2.5rem;
+  background: var(--color-surface);
+  border: 1px solid rgba(0, 255, 156, 0.3);
+  border-radius: var(--radius);
+  box-shadow: 0 0 30px rgba(0, 255, 156, 0.08);
+  overflow: hidden;
+}
+
+.fit-prompt__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.fit-prompt__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fit-prompt__copy {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: rgba(0, 255, 156, 0.1);
+  border: 1px solid rgba(0, 255, 156, 0.35);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.fit-prompt__copy:hover { background: rgba(0, 255, 156, 0.2); }
+
+.fit-prompt__copy.is-copied {
+  color: #0a0e1a;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.fit-prompt__body {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-text);
+  line-height: 1.7;
+  padding: 1.5rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
 /* ── Form ───────────────────────────────────────────────────── */
 .form {
   margin-top: 2rem;
